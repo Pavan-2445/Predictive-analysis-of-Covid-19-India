@@ -6,21 +6,19 @@ from sklearn.preprocessing import MinMaxScaler
 
 # Load data
 df = pd.read_csv("Latest Covid-19 India Status.csv")
-df.columns = df.columns.str.strip()  # Clean column names
+df.columns = df.columns.str.strip() 
 
-# Recalculate Risk Score since it doesn't exist in original CSV
+
 features = ['Total Cases', 'Active', 'Deaths', 'Death Ratio', 'Discharge Ratio']
 scaler = MinMaxScaler()
 df_scaled = scaler.fit_transform(df[features])
 df['Risk Score'] = (df_scaled * [0.2, 0.2, 0.2, 0.2, 0.2]).sum(axis=1)
 
-# Debug: show columns (optional)
-# st.write("🔍 Columns in DataFrame:", df.columns.tolist())
 
 st.set_page_config(page_title="India Disease Outbreak Dashboard", layout="wide")
 st.title("🦠 India Disease Outbreak Predictive Dashboard")
 
-# Overall Summary
+
 st.header("📊 Overall State-wise Summary")
 
 tab1, tab2, tab3, tab4 = st.tabs(["Total Cases", "Population Share", "Deaths", "Overview Table"])
@@ -41,7 +39,7 @@ with tab4:
     st.dataframe(df[['State/UTs', 'Total Cases', 'Deaths', 'Discharge Ratio', 'Death Ratio', 'Risk Score']]
                  .sort_values(by='Risk Score', ascending=False))
 
-# State-wise Analysis
+
 st.header("📍 State/UT Specific Analysis")
 selected_state = st.selectbox("Select a State/UT", df['State/UTs'].unique())
 
@@ -62,10 +60,13 @@ if selected_state:
     fig4 = px.pie(pie_data, values='Count', names='Category', title='Case Distribution')
     st.plotly_chart(fig4, use_container_width=True)
 
-    # Display precautions
+    
     st.subheader("🛡️ Precautionary Measures")
     if state_data['Risk Score'] > 0.5:
-        st.warning("⚠️ High risk zone. Avoid public gatherings, wear masks, sanitize regularly.")
+        st.warning("⚠️ High risk zone.")
+        st.info("😷 Wear masks")
+        st.info("🧼 Sanitize regularly.")
+        st.info("🫂🫂 Avoid public gatherings.")
     elif state_data['Risk Score'] > 0.3:
         st.info("🟠 Moderate risk. Follow standard COVID-19 precautions.")
     else:
