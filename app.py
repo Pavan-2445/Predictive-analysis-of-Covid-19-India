@@ -2,18 +2,22 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 import joblib
+from sklearn.preprocessing import MinMaxScaler
 
-# Load data and model
+# Load data
 df = pd.read_csv("Latest Covid-19 India Status.csv")
+df.columns = df.columns.str.strip()  # Clean column names
 
+# Recalculate Risk Score since it doesn't exist in original CSV
+features = ['Total Cases', 'Active', 'Deaths', 'Death Ratio', 'Discharge Ratio']
+scaler = MinMaxScaler()
+df_scaled = scaler.fit_transform(df[features])
+df['Risk Score'] = (df_scaled * [0.2, 0.2, 0.2, 0.2, 0.2]).sum(axis=1)
 
-df.columns = df.columns.str.strip()
-st.write("🔍 Columns in DataFrame:", df.columns.tolist())  # Debug line
-
-model = joblib.load("risk_score_model.pkl")
+# Debug: show columns (optional)
+# st.write("🔍 Columns in DataFrame:", df.columns.tolist())
 
 st.set_page_config(page_title="India Disease Outbreak Dashboard", layout="wide")
-
 st.title("🦠 India Disease Outbreak Predictive Dashboard")
 
 # Overall Summary
@@ -34,7 +38,8 @@ with tab3:
     st.plotly_chart(fig3, use_container_width=True)
 
 with tab4:
-    st.dataframe(df[['State/UTs', 'Total Cases', 'Deaths', 'Discharge Ratio', 'Death Ratio', 'Risk Score']].sort_values(by='Risk Score', ascending=False))
+    st.dataframe(df[['State/UTs', 'Total Cases', 'Deaths', 'Discharge Ratio', 'Death Ratio', 'Risk Score']]
+                 .sort_values(by='Risk Score', ascending=False))
 
 # State-wise Analysis
 st.header("📍 State/UT Specific Analysis")
