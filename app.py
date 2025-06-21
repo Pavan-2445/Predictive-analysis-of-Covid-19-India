@@ -211,15 +211,6 @@ with st.sidebar:
     total_deaths = df['Deaths'].sum()
     total_recovered = df['Discharged'].sum()
     
-    st.markdown(f"""
-    <div class="metric-card">
-        <h4>📊 Quick Stats</h4>
-        <p><strong>Total Cases:</strong> {total_cases:,}</p>
-        <p><strong>Total Deaths:</strong> {total_deaths:,}</p>
-        <p><strong>Total Recovered:</strong> {total_recovered:,}</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
     # Risk level filter
     risk_filter = st.selectbox(
         "🎯 Filter by Risk Level",
