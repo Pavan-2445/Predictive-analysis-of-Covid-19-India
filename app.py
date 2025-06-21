@@ -5,8 +5,13 @@ import joblib
 
 # Load data and model
 df = pd.read_csv("Latest Covid-19 India Status.csv")
-df.columns = df.columns.str.strip()  # Remove any leading/trailing spaces
-st.write("Current Columns:", df.columns.tolist())
+
+
+df.columns = df.columns.str.strip()
+st.write("🔍 Columns in DataFrame:", df.columns.tolist())  # Debug line
+
+st.dataframe(df[['State/UTs', 'Total Cases', 'Deaths', 'Discharge Ratio (%)', 'Death Ratio (%)', 'Risk Score']]
+             .sort_values(by='Risk Score', ascending=False))
 
 model = joblib.load("risk_score_model.pkl")
 
