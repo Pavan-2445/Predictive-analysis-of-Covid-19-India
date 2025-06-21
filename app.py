@@ -34,7 +34,7 @@ with tab3:
     st.plotly_chart(fig3, use_container_width=True)
 
 with tab4:
-    st.dataframe(df[['State/UTs', 'Total Cases', 'Deaths', 'Discharge Ratio (%)', 'Death Ratio (%)', 'Risk Score']].sort_values(by='Risk Score', ascending=False))
+    st.dataframe(df[['State/UTs', 'Total Cases', 'Deaths', 'Discharge Ratio', 'Death Ratio', 'Risk Score']].sort_values(by='Risk Score', ascending=False))
 
 # State-wise Analysis
 st.header("📍 State/UT Specific Analysis")
