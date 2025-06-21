@@ -10,9 +10,6 @@ df = pd.read_csv("Latest Covid-19 India Status.csv")
 df.columns = df.columns.str.strip()
 st.write("🔍 Columns in DataFrame:", df.columns.tolist())  # Debug line
 
-st.dataframe(df[['State/UTs', 'Total Cases', 'Deaths', 'Discharge Ratio (%)', 'Death Ratio (%)', 'Risk Score']]
-             .sort_values(by='Risk Score', ascending=False))
-
 model = joblib.load("risk_score_model.pkl")
 
 st.set_page_config(page_title="India Disease Outbreak Dashboard", layout="wide")
