@@ -99,7 +99,7 @@ st.markdown("""
     }
     
     .stSelectbox > div > div > div {
-        background: rgba(255, 255, 255, 0.9);
+        background: black;
         border-radius: 10px;
         border: 2px solid transparent;
         transition: all 0.3s ease;
