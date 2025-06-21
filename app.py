@@ -4,7 +4,7 @@ import streamlit as st
 import joblib
 
 # Load data and model
-df = pd.read_csv("processed_disease_data.csv")
+df = pd.read_csv("Latest Covid-19 India Status.csv")
 model = joblib.load("risk_score_model.pkl")
 
 st.set_page_config(page_title="India Disease Outbreak Dashboard", layout="wide")
