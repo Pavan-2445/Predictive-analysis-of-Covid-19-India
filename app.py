@@ -18,7 +18,7 @@ st.markdown("""
     }
     
     .stApp {
-    background: linear-gradient(135deg, #f9e0e0 0%, #e3e5f3 100%);
+    background: linear-gradient(135deg, #8e44ad, #2c3e50);
     background-size: 300% 300%;
     background-attachment: fixed;
     animation: gradientShift 10s ease infinite;
@@ -403,11 +403,7 @@ with tab3:
         aspect='auto'
     )
 
-    fig_heatmap.update_layout(
-    plot_bgcolor='rgb(135, 206, 235,1)',  
-    paper_bgcolor='white',               
-    title_x=0.5
-    )
+    
     st.plotly_chart(fig_heatmap, use_container_width=True)
     
     st.markdown('</div>', unsafe_allow_html=True)
