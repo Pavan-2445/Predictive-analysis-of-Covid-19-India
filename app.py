@@ -18,7 +18,7 @@ st.markdown("""
     }
     
     .stApp {
-    background: linear-gradient(135deg, #8e44ad, #2c3e50);
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
     background-size: 300% 300%;
     background-attachment: fixed;
     animation: gradientShift 10s ease infinite;
@@ -282,9 +282,9 @@ with tab1:
     
     # Create interactive bar chart with better styling
     fig1 = px.bar(
-        filtered_df.sort_values('Total Cases', ascending=False).head(35),
+        filtered_df.sort_values('Total Cases', ascending=False).head(10),
         x='State/UTs', y='Total Cases',
-        title='📈 Top States by Total Cases',
+        title='📈 Top 10 States by Total Cases',
         color='Risk Score',
         color_continuous_scale='Reds',
         text='Total Cases',
