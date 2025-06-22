@@ -8,7 +8,7 @@ from sklearn.preprocessing import MinMaxScaler
 import time
 import numpy as np
 
-# Custom CSS for enhanced styling and animations
+
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
@@ -18,19 +18,21 @@ st.markdown("""
     }
     
     .stApp {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        background-attachment: fixed;
+    background: linear-gradient(135deg, #f9e0e0 0%, #e3e5f3 100%);
+    background-size: 300% 300%;
+    background-attachment: fixed;
+    animation: gradientShift 10s ease infinite;
     }
     
     .main-header {
-        background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+        background: linear-gradient(90deg, #ff9a9e, #fad0c4, #a18cd1);
         background-size: 300% 300%;
-        animation: gradientShift 4s ease infinite;
+        animation: gradientShift 6s ease infinite;
         padding: 2rem;
         border-radius: 20px;
         margin-bottom: 2rem;
         text-align: center;
-        color: black;
+        color: #1f1f1f;
         box-shadow: 0 20px 40px rgba(0,0,0,0.1);
     }
     
@@ -164,7 +166,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Load data with loading animation
+
 @st.cache_data
 def load_data():
     df = pd.read_csv("Latest Covid-19 India Status.csv")
@@ -172,7 +174,7 @@ def load_data():
     return df
 
 
-# Initialize app
+
 st.set_page_config(
     page_title="🛡️India COVID-19 Dashboard - 🇮🇳", 
     layout="wide",
@@ -215,7 +217,7 @@ with st.sidebar:
     total_deaths = df['Deaths'].sum()
     total_recovered = df['Discharged'].sum()
     
-    # Risk level filter
+    
     risk_filter = st.selectbox(
         "🎯 Filter by Risk Level",
         ["All", "High Risk (>0.5)", "Moderate Risk (0.3-0.5)", "Low Risk (<0.3)"],
@@ -231,7 +233,7 @@ elif risk_filter == "Moderate Risk (0.3-0.5)":
 elif risk_filter == "Low Risk (<0.3)":
     filtered_df = df[df['Risk Score'] < 0.3]
 
-# Overview metrics with animation
+
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
@@ -273,7 +275,6 @@ with col4:
 
 st.markdown("---")
 
-# Enhanced tabs with better charts
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["📈 Cases Analysis", "⚪ Demographics", "🪦 Mortality", "📋 Data Table", "🗺️ Risk Map"])
 
 with tab1:
@@ -300,14 +301,13 @@ with tab1:
     )
     st.plotly_chart(fig1, use_container_width=True)
     
-    # Active vs Recovered comparison
     fig_comparison = make_subplots(
         rows=1, cols=2,
         subplot_titles=('Active Cases Distribution', 'Recovery Rate by State'),
         specs=[[{"type": "scatter"}, {"type": "bar"}]]
     )
     
-    # Scatter plot for active cases
+    # Scatter plot
     fig_comparison.add_trace(
         go.Scatter(
             x=filtered_df['Total Cases'],
@@ -325,7 +325,7 @@ with tab1:
         row=1, col=1
     )
     
-    # Recovery rate bar chart
+    # Recovery rate
     recovery_rates = (filtered_df['Discharged'] / filtered_df['Total Cases'] * 100).fillna(0)
     fig_comparison.add_trace(
         go.Bar(
@@ -346,10 +346,6 @@ with tab1:
 with tab2:
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
     
-    # Enhanced pie chart with better interactivity
-    
-    
-    # Population vs Cases correlation
     fig_corr = px.scatter(
         filtered_df,
         x='Population',
@@ -369,7 +365,6 @@ with tab2:
 with tab3:
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
     
-    # Death analysis with multiple visualizations
     col1, col2 = st.columns(2)
     
     with col1:
@@ -384,7 +379,7 @@ with tab3:
         st.plotly_chart(fig3, use_container_width=True)
     
     with col2:
-        # Death ratio analysis
+        
         fig_death_ratio = px.box(
             filtered_df,
             y='Death Ratio',
@@ -394,7 +389,7 @@ with tab3:
         fig_death_ratio.update_layout(height=400)
         st.plotly_chart(fig_death_ratio, use_container_width=True)
     
-    # Mortality trends heatmap
+    # Mortality heatmap
     mortality_data = filtered_df.pivot_table(
         values=['Deaths', 'Death Ratio'], 
         index='State/UTs',
@@ -409,8 +404,8 @@ with tab3:
     )
 
     fig_heatmap.update_layout(
-    plot_bgcolor='rgba(240,240,240,1)',  # Inner plot background
-    paper_bgcolor='white',               # Outer background
+    plot_bgcolor='rgb(135, 206, 235,1)',  
+    paper_bgcolor='white',               
     title_x=0.5
     )
     st.plotly_chart(fig_heatmap, use_container_width=True)
@@ -419,11 +414,8 @@ with tab3:
 
 with tab4:
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    
-    # Enhanced data table with sorting and filtering
     st.subheader("📋 Comprehensive State Data")
-    
-    # Sort options
+
     sort_by = st.selectbox(
         "Sort by:",
         ['Risk Score', 'Total Cases', 'Deaths', 'Active', 'Discharge Ratio', 'Death Ratio']
@@ -434,7 +426,6 @@ with tab4:
         by=sort_by, ascending=False
     )
     
-    # Color-code the risk scores
     def color_risk_score(val):
         if val > 0.5:
             return 'background-color: #ffebee; color: #c62828'
