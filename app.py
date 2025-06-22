@@ -348,21 +348,7 @@ with tab2:
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
     
     # Enhanced pie chart with better interactivity
-    fig2 = px.pie(
-        filtered_df.head(10), 
-        names='State/UTs', 
-        values='Population',
-        title='🏘️ Population Distribution (Top 10 States)',
-        hole=0.4,
-        color_discrete_sequence=px.colors.qualitative.Set3
-    )
-    fig2.update_traces(
-        textposition='inside',
-        textinfo='percent+label',
-        hovertemplate='<b>%{label}</b><br>Population: %{value:,.0f}<br>Percentage: %{percent}<extra></extra>'
-    )
-    fig2.update_layout(height=600, showlegend=True)
-    st.plotly_chart(fig2, use_container_width=True)
+    
     
     # Population vs Cases correlation
     fig_corr = px.scatter(
@@ -462,7 +448,7 @@ with tab5:
     
     # Risk score visualization
     fig_risk = px.treemap(
-        filtered_df.head(20),
+        filtered_df.head(35),
         path=['State/UTs'],
         values='Total Cases',
         color='Risk Score',
