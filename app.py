@@ -407,6 +407,12 @@ with tab3:
         color_continuous_scale='Reds',
         aspect='auto'
     )
+
+    fig_heatmap.update_layout(
+    plot_bgcolor='rgba(240,240,240,1)',  # Inner plot background
+    paper_bgcolor='white',               # Outer background
+    title_x=0.5
+    )
     st.plotly_chart(fig_heatmap, use_container_width=True)
     
     st.markdown('</div>', unsafe_allow_html=True)
