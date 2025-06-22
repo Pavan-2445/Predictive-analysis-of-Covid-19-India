@@ -41,7 +41,7 @@ st.markdown("""
     }
     
     .metric-card {
-        background: rgba(255, 255, 255, 0.95);
+        background: black;
         backdrop-filter: blur(10px);
         border-radius: 15px;
         padding: 1.5rem;
@@ -171,10 +171,26 @@ def load_data():
     df = pd.read_csv("Latest Covid-19 India Status.csv")
     df.columns = df.columns.str.strip()
     return df
+if 'agreed' not in st.session_state:
+    st.session_state.agreed = False
+
+# Show welcome/disclaimer until user agrees
+if not st.session_state.agreed:
+    st.markdown("## 🧠 Welcome to the COVID-19 Prediction Dashboard")
+    st.info("This dashboard provides predictive insights based on available data. Please proceed only if you agree to the terms of use and understand that this is for educational and informational purposes.")
+
+    # Add an 'Agree and Continue' button
+    if st.button("✅ Agree and Continue"):
+        st.session_state.agreed = True
+        st.experimental_rerun()  # Refresh to enter main app
+else:
+    # 👉 Main app starts here
+    st.title("📊 COVID-19 India Dashboard")
+    st.write("Main content goes here...")
 
 # Initialize app
 st.set_page_config(
-    page_title="🦠 India COVID-19 Dashboard", 
+    page_title="🛡️India COVID-19 Dashboard - 🇮🇳", 
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -233,27 +249,27 @@ col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.markdown(f"""
     <div class="metric-card">
-        <h3 style="color: #ff6b6b; margin: 0;">🔥 Active Cases</h3>
+        <h3 style="color: #ff6b6b; margin: 0;">Active Cases</h3>
         <h1 style="margin: 0.5rem 0;">{filtered_df['Active'].sum():,}</h1>
-        <p style="color: #666; margin: 0;">Currently active</p>
+        <p style="color: black; margin: 0;">Currently active</p>
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
     st.markdown(f"""
     <div class="metric-card">
-        <h3 style="color: #4ecdc4; margin: 0;">✅ Recovered</h3>
+        <h3 style="color: #4ecdc4; margin: 0;">🛡️Recovered</h3>
         <h1 style="margin: 0.5rem 0;">{filtered_df['Discharged'].sum():,}</h1>
-        <p style="color: #666; margin: 0;">Total recoveries</p>
+        <p style="color: black; margin: 0;">Total recoveries</p>
     </div>
     """, unsafe_allow_html=True)
 
 with col3:
     st.markdown(f"""
     <div class="metric-card">
-        <h3 style="color: #45b7d1; margin: 0;">📈 Total Cases</h3>
+        <h3 style="color: #45b7d1; margin: 0;">Total Cases</h3>
         <h1 style="margin: 0.5rem 0;">{filtered_df['Total Cases'].sum():,}</h1>
-        <p style="color: #666; margin: 0;">Cumulative cases</p>
+        <p style="color: black; margin: 0;">Cumulative cases</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -261,16 +277,16 @@ with col4:
     recovery_rate = (filtered_df['Discharged'].sum() / filtered_df['Total Cases'].sum()) * 100
     st.markdown(f"""
     <div class="metric-card">
-        <h3 style="color: #2ed573; margin: 0;">💪 Recovery Rate</h3>
+        <h3 style="color: #2ed573; margin: 0;">🛡️Recovery Rate</h3>
         <h1 style="margin: 0.5rem 0;">{recovery_rate:.1f}%</h1>
-        <p style="color: #666; margin: 0;">Overall recovery</p>
+        <p style="color: black; margin: 0;">Overall recovery</p>
     </div>
     """, unsafe_allow_html=True)
 
 st.markdown("---")
 
 # Enhanced tabs with better charts
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["📊 Cases Analysis", "🥧 Demographics", "⚰️ Mortality", "📋 Data Table", "🗺️ Risk Map"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["📈 Cases Analysis", "⚪ Demographics", "🪦 Mortality", "📋 Data Table", "🗺️ Risk Map"])
 
 with tab1:
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
@@ -279,7 +295,7 @@ with tab1:
     fig1 = px.bar(
         filtered_df.sort_values('Total Cases', ascending=False).head(15),
         x='State/UTs', y='Total Cases',
-        title='🔥 Top 15 States by Total Cases',
+        title='📈 Top 15 States by Total Cases',
         color='Risk Score',
         color_continuous_scale='Reds',
         text='Total Cases',
@@ -367,7 +383,7 @@ with tab2:
         size='Risk Score',
         color='Death Ratio',
         hover_name='State/UTs',
-        title='📊 Population vs Total Cases Correlation',
+        title='Population vs Total Cases Correlation',
         trendline='ols',
         color_continuous_scale='Reds'
     )
@@ -386,7 +402,7 @@ with tab3:
         fig3 = px.bar(
             filtered_df.sort_values('Deaths', ascending=False).head(10),
             x='State/UTs', y='Deaths',
-            title='⚰️ Deaths by State (Top 10)',
+            title='Deaths by State (Top 10)',
             color='Death Ratio',
             color_continuous_scale='Reds'
         )
@@ -398,7 +414,7 @@ with tab3:
         fig_death_ratio = px.box(
             filtered_df,
             y='Death Ratio',
-            title='📈 Death Ratio Distribution',
+            title='Death Ratio Distribution',
             points='all'
         )
         fig_death_ratio.update_layout(height=400)
@@ -413,7 +429,7 @@ with tab3:
     
     fig_heatmap = px.imshow(
         mortality_data.T,
-        title='🔥 Mortality Heatmap (Top 15 States)',
+        title='Mortality Heatmap (Top 15 States)',
         color_continuous_scale='Reds',
         aspect='auto'
     )
@@ -494,10 +510,10 @@ if selected_state:
     col1, col2, col3, col4, col5 = st.columns(5)
     
     metrics = [
-        ("🔥 Total Cases", int(state_data['Total Cases']), "#ff6b6b"),
-        ("⚡ Active Cases", int(state_data['Active']), "#ffa502"),
-        ("✅ Discharged", int(state_data['Discharged']), "#2ed573"),
-        ("⚰️ Deaths", int(state_data['Deaths']), "#ff4757"),
+        ("Total Cases", int(state_data['Total Cases']), "#ff6b6b"),
+        ("Active Cases", int(state_data['Active']), "#ffa502"),
+        ("Discharged", int(state_data['Discharged']), "#2ed573"),
+        ("Deaths", int(state_data['Deaths']), "#ff4757"),
         ("⚠️ Risk Score", f"{state_data['Risk Score']:.3f}", "#764ba2")
     ]
     
@@ -565,7 +581,7 @@ if selected_state:
     if risk_score > 0.5:
         st.markdown("""
         <div class="risk-indicator high-risk">
-            🚨 HIGH RISK ZONE - IMMEDIATE ACTION REQUIRED
+            🚨🫨 HIGH RISK ZONE - IMMEDIATE ACTION REQUIRED
         </div>
         """, unsafe_allow_html=True)
         
@@ -582,7 +598,7 @@ if selected_state:
     elif risk_score > 0.3:
         st.markdown("""
         <div class="risk-indicator moderate-risk">
-            ⚠️ MODERATE RISK - ENHANCED PRECAUTIONS NEEDED
+            ⚠️😊 MODERATE RISK - ENHANCED PRECAUTIONS NEEDED
         </div>
         """, unsafe_allow_html=True)
         
@@ -598,7 +614,7 @@ if selected_state:
     else:
         st.markdown("""
         <div class="risk-indicator low-risk">
-            ✅ LOW RISK - MAINTAIN STANDARD PRECAUTIONS
+            ✅😄 LOW RISK - MAINTAIN STANDARD PRECAUTIONS
         </div>
         """, unsafe_allow_html=True)
         
@@ -632,8 +648,8 @@ if selected_state:
 st.markdown("---")
 st.markdown("""
 <div style="text-align: center; padding: 2rem; background: rgba(255,255,255,0.1); border-radius: 15px; margin-top: 2rem;">
-    <h4>🔬 COVID-19 India Dashboard</h4>
-    <p>Real-time data analysis and predictive insights for informed decision making</p>
-    <p style="opacity: 0.7;">Data updated regularly • Built with ❤️ using Streamlit & Plotly</p>
+    <h4>🔬 COVID-19 Analysis India Dashboard</h4>
+    <p>Provides predictive insights for informed decision making and crafted with care, so you can make informed decisions and protect the ones you love.</p>
+    <p style="opacity: 0.7;">Built With ❤️ by Pavan Sharma</p>
 </div>
 """, unsafe_allow_html=True)
