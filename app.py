@@ -171,22 +171,7 @@ def load_data():
     df = pd.read_csv("Latest Covid-19 India Status.csv")
     df.columns = df.columns.str.strip()
     return df
-if 'agreed' not in st.session_state:
-    st.session_state.agreed = False
 
-# Show welcome/disclaimer until user agrees
-if not st.session_state.agreed:
-    st.markdown("## 🧠 Welcome to the COVID-19 Prediction Dashboard")
-    st.info("This dashboard provides predictive insights based on available data. Please proceed only if you agree to the terms of use and understand that this is for educational and informational purposes.")
-
-    # Add an 'Agree and Continue' button
-    if st.button("✅ Agree and Continue"):
-        st.session_state.agreed = True
-        st.experimental_rerun()  # Refresh to enter main app
-else:
-    # 👉 Main app starts here
-    st.title("📊 COVID-19 India Dashboard")
-    st.write("Main content goes here...")
 
 # Initialize app
 st.set_page_config(
@@ -210,13 +195,17 @@ df['Risk Score'] = (df_scaled * [0.2, 0.2, 0.2, 0.2, 0.2]).sum(axis=1)
 st.markdown("""
 <div class="main-header">
     <h1 style="font-size: 3rem; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-        🦠 India COVID-19 Predictive Dashboard
+         India COVID-19 Predictive Dashboard
     </h1>
     <p style="font-size: 1.2rem; margin: 0.5rem 0 0 0; opacity: 0.9;">
         Risk assessment across Indian states
     </p>
 </div>
 """, unsafe_allow_html=True)
+st.info("""📌 Note: This analysis is based on COVID-19 data collected up to September 2023.
+Please use these insights as a reference to stay aware and take thoughtful precautions for the future.
+Let’s stay informed, stay safe, and care for the ones we love. ❤️"""
+)
 
 # Sidebar with enhanced styling
 with st.sidebar:
