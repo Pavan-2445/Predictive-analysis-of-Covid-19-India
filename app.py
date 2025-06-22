@@ -54,7 +54,6 @@ st.markdown("""
     
     .metric-card:hover {
         transform: translateY(-5px) scale(1.02);
-        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
     }
     
     @keyframes slideUp {
@@ -282,9 +281,9 @@ with tab1:
     
     # Create interactive bar chart with better styling
     fig1 = px.bar(
-        filtered_df.sort_values('Total Cases', ascending=False).head(15),
+        filtered_df.sort_values('Total Cases', ascending=False).head(35),
         x='State/UTs', y='Total Cases',
-        title='📈 Top 15 States by Total Cases',
+        title='📈 Top States by Total Cases',
         color='Risk Score',
         color_continuous_scale='Reds',
         text='Total Cases',
@@ -330,10 +329,10 @@ with tab1:
     recovery_rates = (filtered_df['Discharged'] / filtered_df['Total Cases'] * 100).fillna(0)
     fig_comparison.add_trace(
         go.Bar(
-            x=recovery_rates.head(10),
-            y=filtered_df['State/UTs'].head(10),
+            x=recovery_rates.head(35),
+            y=filtered_df['State/UTs'].head(35),
             orientation='h',
-            marker_color=recovery_rates.head(10),
+            marker_color=recovery_rates.head(35),
             marker_colorscale='Greens'
         ),
         row=1, col=2
@@ -400,11 +399,11 @@ with tab3:
         values=['Deaths', 'Death Ratio'], 
         index='State/UTs',
         aggfunc='mean'
-    ).head(15)
+    ).head(35)
     
     fig_heatmap = px.imshow(
         mortality_data.T,
-        title='Mortality Heatmap (Top 15 States)',
+        title='Mortality Heatmap',
         color_continuous_scale='Reds',
         aspect='auto'
     )
@@ -495,7 +494,7 @@ if selected_state:
     for i, (title, value, color) in enumerate(metrics):
         with [col1, col2, col3, col4, col5][i]:
             st.markdown(f"""
-            <div class="metric-card" style="border-left: 4px solid {color};">
+            <div class="metric-card">
                 <h4 style="color: {color}; margin: 0;">{title}</h4>
                 <h2 style="margin: 0.5rem 0;">{value}</h2>
             </div>
