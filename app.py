@@ -354,7 +354,7 @@ with tab2:
         color='Death Ratio',
         hover_name='State/UTs',
         title='Population vs Total Cases Correlation',
-        trendline='ols',
+        #trendline='ols',
         color_continuous_scale='Reds'
     )
     fig_corr.update_layout(height=500)
