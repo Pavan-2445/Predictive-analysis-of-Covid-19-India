@@ -7,4 +7,4 @@ plotly
 streamlit
 joblib
 statsmodels
-_lazywhere
+lazywhere
