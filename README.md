@@ -5,6 +5,7 @@
 
 
 **Tech Stack:** 
+
 	* Language : Python 3
 	* Data Manipulation : Numpy, Pandas
 	* Visualization : Plotly , Scipy, Matplotlib, Seaborn
