@@ -1,4 +1,4 @@
-### **Predictive-analysis-of-Covid-19-India**
+# **Predictive-analysis-of-Covid-19-India**
 **PREDICTIVE ANALYSIS FOR DISEASE OUTBREAK**
 
 # Project Title: Predictive analysis for disease outbreak
