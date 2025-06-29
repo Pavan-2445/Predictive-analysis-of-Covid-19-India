@@ -6,12 +6,12 @@
 
 **Tech Stack:** 
 
-	* Language : Python 3
-	* Data Manipulation : Numpy, Pandas
-	* Visualization : Plotly , Scipy, Matplotlib, Seaborn
-	* ML Scaling : Scikit-learn MinMaxScaler
-	* Web Framework : Streamlit
-	* Deployment : Streamlit Community Cloud
+	Language : Python 3
+	Data Manipulation : Numpy, Pandas
+	Visualization : Plotly , Scipy, Matplotlib, Seaborn
+	ML Scaling : Scikit-learn MinMaxScaler
+	Web Framework : Streamlit
+	Deployment : Streamlit Community Cloud
 
  
 # ABSTRACT
